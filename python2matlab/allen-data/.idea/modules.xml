@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../AllenSDK2022/.idea/AllenSDK2022.iml" filepath="$PROJECT_DIR$/../AllenSDK2022/.idea/AllenSDK2022.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/allen-data.iml" filepath="$PROJECT_DIR$/.idea/allen-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../allen2/.idea/allen2.iml" filepath="$PROJECT_DIR$/../allen2/.idea/allen2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../allen2/venv/.idea/venv.iml" filepath="$PROJECT_DIR$/../allen2/venv/.idea/venv.iml" />
+    </modules>
+  </component>
+</project>
