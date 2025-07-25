@@ -13,10 +13,10 @@ end
 
 %% get session filenames
 
-savePrefix = 'dmTuning_statRun_10t_simple';
+savePrefix = 'dmTuning_statRun_8t_wpsth';
 
 tic
-for isession = 1:numel(dataFiles)
+parfor isession = 1:numel(dataFiles)
     
 isession
  allen_analyseSesssion_DotMotionSpeedTuning(dataFiles(isession).filename, fullfile(dataFiles(isession).folder, [savePrefix,'_', num2str(dataFiles(isession).sessionID), '.mat']))

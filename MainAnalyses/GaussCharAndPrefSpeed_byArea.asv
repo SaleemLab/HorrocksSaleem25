@@ -186,11 +186,11 @@ pvals_bc(pvals_bc>1)=1;
 
 for iarea1 = 1:8
     for iarea2 = 1:8
-        valDiff(iarea1,iarea2) = log2(ta(iarea1).meanPref)-log2(ta(iarea2).meanPref);
+        valDiff(iarea1,iarea2) = ta(iarea1).meanPref-ta(iarea2).varPref;
     end
 end
 
-pArray = pvals_bc;
+pArray = pVals_bc;
 figure, hold on
 imagesc(valDiff), axis ij
 for iarea1 = 1:8
@@ -208,29 +208,26 @@ for iarea1 = 1:8
     end
 end
 
-colormap(crameri('vik')), colorbar
+figure
+tickvals = [0 0.001 0.01 0.05 1];
+pvals_disc = discretize(pvals_bc,tickvals,'IncludedEdge','right');
+colmap = colormap(slanCM('gray',6));
+colmap=flipud(colmap);
+colmap = colmap(1:4,:);
+colmap = [colmap; 0 0 0];
+imagesc(pvals_disc), colormap(colmap); 
+c = colorbar;
+c.Ticks =linspace(1,4,6); c.TickLabels = {"","0.0001","0.001", "0.01", "0.05", ">0.05"};
+
+ax=gca; ax.XTick = 1:8; ax.YTick = 1:8; ax.XTickLabels = areas; ax.YTickLabels = areas;
+defaultAxesProperties(gca,false)
 hold on
 for iarea = 1:numel(areas)
+for i=1:numel(areas)
     plot([iarea+0.5, iarea+0.5], [0 8.5],'k');
     plot([0 8.5], [iarea+0.5 iarea+0.5],'k')
 end
-ax=gca; ax.XTick = 1:8; ax.YTick = 1:8; ax.XTickLabels = areas; ax.YTickLabels = areas;
-box on
-xlim([0.5, 8.5]), ylim([0.5 8.5])
-defaultAxesProperties(gca,false)
-
-% figure % just significance
-% tickvals = [0 0.001 0.01 0.05 1];
-% pvals_disc = discretize(pvals_bc,tickvals,'IncludedEdge','right');
-% colmap = colormap(slanCM('gray',6));
-% colmap=flipud(colmap);
-% colmap = colmap(1:4,:);
-% colmap = [colmap; 0 0 0];
-% imagesc(pvals_disc), colormap(colmap); 
-% c = colorbar;
-% c.Ticks =linspace(1,4,6); c.TickLabels = {"","0.0001","0.001", "0.01", "0.05", ">0.05"};
-% 
-
+end
 
 
 %% gauss char glme for area

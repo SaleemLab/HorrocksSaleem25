@@ -15,15 +15,49 @@ allCurves   = allTuning(idx, :);
 allCurves_z = zscore(allCurves, [], 2);   % z-score each curve (row-wise)
 nCurves     = size(allCurves_z, 1);
 
-% --- Compute Dissimilarity Matrix & Hierarchical Linkage ---
+%% Sorting using optimalleaforder
+% Compute Dissimilarity Matrix & Hierarchical Linkage
 D  = pdist(allCurves_z, 'euclidean');
 dm = squareform(D);
 Z  = linkage(D, 'average');
 
-% --- Optimal Leaf Order ---
+% find the optimal leaf order
 leafOrder = optimalleaforder(Z, D);
 
-% --- Define number of clusters (change this variable as desired) ---
+% re-order the dissimilarity matrix and tuning curves
+dm_reordered = dm(leafOrder, leafOrder);
+tuning_reordered = allCurves_z(leafOrder, :);
+
+
+
+%% Clustering 
+
+% use silhouette score to find numCluster
+tic
+clusterRange = 2:2:32
+avgSilhouette = zeros(length(clusterRange),1);
+
+for i = 1:length(clusterRange)
+    % Compute cluster assignments for current number of clusters
+    currentClusters = cluster(Z, 'maxclust', clusterRange(i));
+    
+    % Compute silhouette values for each observation
+    s = silhouette(allCurves_z, currentClusters, 'euclidean');
+    
+    % Compute the average silhouette value
+    avgSilhouette(i) = mean(s);
+end
+
+% Plot average silhouette value vs. number of clusters
+figure;
+plot(clusterRange, avgSilhouette, '-o', 'LineWidth', 2);
+xlabel('Number of Clusters');
+ylabel('Average Silhouette Value');
+title('Silhouette Analysis for Optimal Number of Clusters');
+grid on;
+toc
+
+%% --- Define number of clusters (change this variable as desired) ---
 numClusters   = 8;   % <--- CHANGE THIS VALUE TO USE A DIFFERENT NUMBER OF CLUSTERS
 
 % --- Obtain Cluster Assignments ---
@@ -135,12 +169,19 @@ title('Clusters');
 
 nClust = max(cluster_idx);
 h = histcounts(cluster_idx,nClust);
-[v, idx] = maxk(h,8);
+[v, idx] = maxk(h,numClusters);
 
 % plot clusters along with medoid 
-figure
+ncols = ceil(sqrt(numClusters)); 
+nrows = ceil(numClusters / ncols);
+
+% 3. Create the tiled layout
+figure;
+t = tiledlayout(nrows, ncols);
+
 for i = 1:numel(idx)
-    subplot(2,4,i)
+
+    nexttile;
 idx2 = find(cluster_idx==idx(i));
 sequences = {};
 for iseq =1:numel(idx2)
@@ -160,30 +201,5 @@ defaultAxesProperties(gca, true)
 end
 
 
-%% sillhouette score
 
-% Range of cluster numbers to evaluate (adjust as needed)
-tic
-clusterRange = 2:2:64
-avgSilhouette = zeros(length(clusterRange),1);
-
-for i = 1:length(clusterRange)
-    % Compute cluster assignments for current number of clusters
-    currentClusters = cluster(Z, 'maxclust', clusterRange(i));
-    
-    % Compute silhouette values for each observation
-    s = silhouette(allCurves_z, currentClusters, 'Euclidean');
-    
-    % Compute the average silhouette value
-    avgSilhouette(i) = mean(s);
-end
-
-% Plot average silhouette value vs. number of clusters
-figure;
-plot(clusterRange, avgSilhouette, '-o', 'LineWidth', 2);
-xlabel('Number of Clusters');
-ylabel('Average Silhouette Value');
-title('Silhouette Analysis for Optimal Number of Clusters');
-grid on;
-toc
 

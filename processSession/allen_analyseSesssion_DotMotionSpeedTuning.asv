@@ -132,14 +132,6 @@ if numel(unique([dmtrials.Speed]==7)) % 2 sessions don't have the 7 speeds
     [units.prefSpeed_stat] = deal(nan(1,4));
     [units.prefSpeed_run] = deal(nan(1,4));
 
-    for iunit = 1:numel(units)
-        for idir = 1:4
-            units(iunit).statdirpsth(idir).PSTH = [];
-            units(iunit).statdirpsth(idir).info = [];
-            units(iunit).rundirpsth(idir).PSTH = [];
-            units(iunit).rundirpsth(idir).info = [];
-        end
-    end
 
 
 
@@ -310,7 +302,7 @@ if numel(unique([dmtrials.Speed]==7)) % 2 sessions don't have the 7 speeds
 
                     areas = {'VISp', 'VISl', 'VISal', 'VISrl', 'VISam', 'VISpm', 'LGd', 'LP'};
 
-
+                   
 
                     % options for PSTH function
                     binWidth = 10; % ms

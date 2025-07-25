@@ -6,12 +6,12 @@
 
 % dataDir = 'X:\ibn-vision\USERS\Edd\AllenDataAnalysis_2022\data\FunctionalConnectivity22'
  % dataFiles = dir(fullfile(dataDir, 'dgTuning_statrun*')); % ''dmTuning_statRun_8t*'dgTuning_statrun
- dataFiles = dir(fullfile(dataDir, 'dmTuning_statRun_8t*')); % ''dmTuning_statRun_8t*'dgTuning_statrun
+ dataFiles = dir(fullfile(dataDir, 'dmTuning_statRun_8t_wpsth*')); % ''dmTuning_statRun_8t*'dgTuning_statrun
 
 tic
 for ifile = 1:numel(dataFiles)
     ifile
-    load(fullfile(dataFiles(ifile).folder, dataFiles(ifile).name), 'units');
+    load(fullfile(dataFiles(ifile).folder, dataFiles(ifile).name), 'units', 'trials');
     session(ifile).units = units;
 end
 toc
@@ -29,7 +29,7 @@ goodUnits = allUnits([allUnits.isi_violations]<=0.1...
     ismember([allUnits.ecephys_structure_acronym],areas));
 nGoodUnits = numel(goodUnits)
 
-areaUnits = allUnits(ismember([allUnits.ecephys_structure_acronym],areas));
+areaUnits = goodUnits(ismember([goodUnits.ecephys_structure_acronym],areas));
 nAreaUnits = numel(areaUnits)
 
 %% get cell-type
