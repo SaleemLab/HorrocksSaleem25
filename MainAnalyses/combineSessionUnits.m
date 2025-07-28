@@ -2,11 +2,11 @@
 
 
  dataDir = 'D:\AllenMatFiles\FC';
-  % dataDir = 'D:\AllenMatFiles\BO';
+   dataDir = 'D:\AllenMatFiles\BO';
 
 % dataDir = 'X:\ibn-vision\USERS\Edd\AllenDataAnalysis_2022\data\FunctionalConnectivity22'
- % dataFiles = dir(fullfile(dataDir, 'dgTuning_statrun*')); % ''dmTuning_statRun_8t*'dgTuning_statrun
- dataFiles = dir(fullfile(dataDir, 'dmTuning_statRun_8t_wpsth*')); % ''dmTuning_statRun_8t*'dgTuning_statrun
+  dataFiles = dir(fullfile(dataDir, 'dgTuning_statrun*')); % ''dmTuning_statRun_8t*'dgTuning_statrun
+ % dataFiles = dir(fullfile(dataDir, 'dmTuning_statRun_8t_wpsth*')); % ''dmTuning_statRun_8t*'dgTuning_statrun
 
 tic
 for ifile = 1:numel(dataFiles)

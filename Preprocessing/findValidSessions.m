@@ -95,3 +95,5 @@ numRunSessions = numel(idx);
 meanRunDirs = mean(nRunDirs(idx));
 
 [numStatSessions, numRunSessions; meanStatDirs, meanRunDirs]
+
+nMixed = cellfun(@numel, {session.mixedDirs})
